@@ -9,8 +9,9 @@ const currentTime = Math.floor(Date.now() / 1000);
 const expiredAt = currentTime + 3600;
 
 export async function createOrder(order: any): Promise<any> {
-  const cancelUrl = "http://localhost:3000/huy-don";
-  const returnUrl = "http://localhost:3000/hoan-thanh";
+  const cancelUrl = `${process.env.APP_BASE_URL}/huy-don`;
+  const returnUrl = `${process.env.APP_BASE_URL}/hoan-thanh`;
+
 
   try {
     const rawSignature = `amount=${order.amount}&cancelUrl=${cancelUrl}&description=${order.description}&orderCode=${order.orderCode}&returnUrl=${returnUrl}`;
