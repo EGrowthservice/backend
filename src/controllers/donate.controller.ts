@@ -108,4 +108,4 @@ class DonationController {
   }
 }
 
-export default DonationController;
+export default new DonationController();

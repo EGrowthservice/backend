@@ -1,4 +1,4 @@
-import News from '../models/news';
+import News from '../models/news.model';
 import { INews } from '../types/news';
 import { generateSlug } from '../utils/slugify';
 

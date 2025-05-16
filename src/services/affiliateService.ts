@@ -1,5 +1,5 @@
-import { Affiliate, AffiliateTracking } from '../models/affiliate';
 import { IAffiliate, IAffiliateTracking } from '../types/affiliate';
+import Affiliate from '../models/affiliate.model';
 
 class AffiliateService {
   async getUserAffiliate(userId: string) {

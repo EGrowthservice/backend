@@ -1,8 +1,7 @@
-import { createClient } from '../utils/supabase';
+import supabase from '../utils/supabase';
 
 class FileService {
   async uploadFile(file: Express.Multer.File, bucket: string) {
-    const supabase = createClient();
     const fileName = `${Date.now()}_${file.originalname}`;
     const { data, error } = await supabase.storage
       .from(bucket)

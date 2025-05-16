@@ -1,4 +1,4 @@
-import Donation from '../models/donation';
+import Donation from '../models/donate.model';
 import { IDonation } from '../types/donation';
 import AffiliateService from './affiliateService';
 

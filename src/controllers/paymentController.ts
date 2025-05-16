@@ -7,7 +7,11 @@ class PaymentController {
       const payment = await PaymentService.createPayment(req.body, req.user!.id);
       res.status(201).json(payment);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      if (error instanceof Error) {
+        res.status(400).json({ message: error.message });
+      } else {
+        res.status(400).json({ message: 'Unknown error occurred' });
+      }
     }
   }
 
@@ -17,7 +21,11 @@ class PaymentController {
       if (!payment) return res.status(404).json({ message: 'Payment not found' });
       res.status(200).json(payment);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      if (error instanceof Error) {
+        res.status(400).json({ message: error.message });
+      } else {
+        res.status(400).json({ message: 'Unknown error occurred' });
+      }
     }
   }
 }
