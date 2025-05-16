@@ -1,10 +1,10 @@
 import { Router } from "express";
-import DonationController from "../controllers/donate.controller";
-const instance = new DonationController();
+import donationController from "../controllers/donate.controller"; // không đổi tên
+
 const router = Router();
 
-router.post("/", instance.createDonation.bind(instance));
-router.get("/", instance.getDonations.bind(instance));
-router.get("/infor", instance.getInfoDonations.bind(instance));
+router.post("/", donationController.createDonation.bind(donationController));
+router.get("/", donationController.getDonations.bind(donationController));
+router.get("/infor", donationController.getInfoDonations.bind(donationController));
 
 export default router;
