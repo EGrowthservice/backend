@@ -39,7 +39,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
             .eq('email', email)
             .single();
 
-        if (userError && userError.code !== 'PGRST116') throw userError; // PGRST116: Không tìm thấy bản ghi
+        if (userError && userError.code !== 'PGRST116') throw userError;
         if (existingUser) {
             res.status(400).json({ message: 'Người dùng đã tồn tại' });
             return;
