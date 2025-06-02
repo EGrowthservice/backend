@@ -18,8 +18,8 @@ const createPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             orderCode,
             amount,
             description,
-            returnUrl: 'http://localhost:3000/success',
-            cancelUrl: 'http://localhost:3000/cancel',
+            returnUrl: `${process.env.BASE_URL}/success`,
+            cancelUrl: `${process.env.BASE_URL}/cancel`,
         };
         const paymentLink = yield payosClient_1.payos.createPaymentLink(paymentData);
         res.json({ checkoutUrl: paymentLink.checkoutUrl });
@@ -32,7 +32,7 @@ exports.createPayment = createPayment;
 const getPaymentStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { orderCode } = req.params;
-        const paymentInfo = yield payosClient_1.payos.getPaymentInformation(orderCode);
+        const paymentInfo = yield payosClient_1.payos.getPaymentLinkInformation(orderCode);
         res.json(paymentInfo);
     }
     catch (error) {

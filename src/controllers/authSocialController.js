@@ -45,11 +45,13 @@ const githubCallback = (req, res) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.githubCallback = githubCallback;
 // ✅ Lấy thông tin user từ JWT
-const getMe = (req, res) => {
+const getMe = (req, res, next) => {
     var _a;
     const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(' ')[1];
-    if (!token)
-        return res.status(401).json({ error: 'Không có token' });
+    if (!token) {
+        res.status(401).json({ error: 'Không có token' });
+        return;
+    }
     try {
         const decoded = jsonwebtoken_1.default.verify(token, JWT_SECRET);
         res.json(decoded);

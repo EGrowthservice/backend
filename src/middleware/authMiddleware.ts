@@ -35,7 +35,11 @@ const hasRole = (roles: string[]) => {
         next();
     };
 };
-export const authenticate = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
+export const authenticate = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): void => {
     const token = req.headers.authorization?.split(' ')[1];
 
     if (!token) {
@@ -44,12 +48,20 @@ export const authenticate = (req: AuthenticatedRequest, res: Response, next: Nex
     }
 
     try {
-        const decoded = jwt.verify(token, JWT_SECRET) as { id: string; email: string; role: string };
-        req.user = { id: decoded.id, email: decoded.email, role: decoded.role };
+        const decoded = jwt.verify(token, JWT_SECRET) as {
+            id: string;
+            email: string;
+            role: string;
+        };
+        req.user = {
+            id: decoded.id,
+            email: decoded.email,
+            role: decoded.role,
+        };
         next();
     } catch (error) {
         res.status(401).json({ message: 'Token không hợp lệ hoặc đã hết hạn' });
-        return;
     }
 };
+
 export { verifyToken, hasRole };

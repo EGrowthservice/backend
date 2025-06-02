@@ -51,12 +51,15 @@ const authenticate = (req, res, next) => {
     }
     try {
         const decoded = jsonwebtoken_1.default.verify(token, JWT_SECRET);
-        req.user = { id: decoded.id, email: decoded.email, role: decoded.role };
+        req.user = {
+            id: decoded.id,
+            email: decoded.email,
+            role: decoded.role,
+        };
         next();
     }
     catch (error) {
         res.status(401).json({ message: 'Token không hợp lệ hoặc đã hết hạn' });
-        return;
     }
 };
 exports.authenticate = authenticate;
