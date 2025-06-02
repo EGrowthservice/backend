@@ -1,0 +1,16 @@
+[phases.setup]
+nixPkgs = ['nodejs', 'coreutils']
+
+[phases.install]
+cmds = [
+  "npm install"
+]
+
+[phases.build]
+cmds = [
+  "chmod +x ./node_modules/.bin/tsc",
+  "npx tsc"
+]
+
+[phases.start]
+cmd = "node dist/index.js"
