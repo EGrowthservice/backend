@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { sendWelcomeEmail } from '../utils/sendEmail';
 
@@ -31,9 +31,12 @@ export const githubCallback = async (req: Request, res: Response) => {
 };
 
 // ✅ Lấy thông tin user từ JWT
-export const getMe = (req: Request, res: Response) => {
+export const getMe = (req: Request, res: Response, next: NextFunction): void => {
     const token = req.headers.authorization?.split(' ')[1];
-    if (!token) return res.status(401).json({ error: 'Không có token' });
+    if (!token) {
+        res.status(401).json({ error: 'Không có token' });
+        return;
+    }
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);

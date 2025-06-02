@@ -8,8 +8,8 @@ export const createPayment = async (req: Request, res: Response) => {
             orderCode,
             amount,
             description,
-            returnUrl: 'http://localhost:3000/success',
-            cancelUrl: 'http://localhost:3000/cancel',
+            returnUrl: `${process.env.BASE_URL}/success`,
+            cancelUrl: `${process.env.BASE_URL}/cancel`,
         };
 
         const paymentLink = await payos.createPaymentLink(paymentData);
@@ -22,7 +22,7 @@ export const createPayment = async (req: Request, res: Response) => {
 export const getPaymentStatus = async (req: Request, res: Response) => {
     try {
         const { orderCode } = req.params;
-        const paymentInfo = await payos.getPaymentInformation(orderCode);
+        const paymentInfo = await payos.getPaymentLinkInformation(orderCode);
         res.json(paymentInfo);
     } catch (error: any) {
         res.status(500).json({ error: error.message });
