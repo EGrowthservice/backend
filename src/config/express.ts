@@ -38,6 +38,9 @@ const createApp = () => {
 
     app.use('/api', routes);
     app.use(errorHandler);
+    app.get('/', (req, res) => {
+        res.send('Welcome to the Project Store API');
+    });
 
     return app;
 };
