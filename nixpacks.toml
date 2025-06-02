@@ -1,5 +1,6 @@
 [phases.setup]
-nixPkgs = ['nodejs', 'coreutils']
+nixPkgs = ['nodejs', 'coreutils', 'typescript']
+aptPkgs = ['python3', 'make', 'g++']
 
 [phases.install]
 cmds = [
@@ -9,7 +10,7 @@ cmds = [
 [phases.build]
 cmds = [
   "chmod +x ./node_modules/.bin/tsc",
-  "npx tsc"
+  "./node_modules/.bin/tsc"
 ]
 
 [phases.start]
