@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { ProductReviewService } from '../services/ProductReview';
 import { ApiResponseHandler } from '../utils/response';
 import { ProductReview } from '../types/ProductReview';
-import { User } from '../types/User';
+import { User } from '../types/user';
 export class ProductReviewController {
     private productReviewService: ProductReviewService;
 
@@ -10,20 +10,21 @@ export class ProductReviewController {
         this.productReviewService = new ProductReviewService();
     }
 
-    // Review methods
     public async createReview(req: Request, res: Response): Promise<void> {
         try {
-            const productId = req.params.productId;
             if (!req.user) {
                 res.status(401).json(ApiResponseHandler.error('User not authenticated'));
                 return;
             }
 
+            const productId = req.params.productId;
+            const user = req.user as User;
             const reviewData: ProductReview = {
                 ...req.body,
                 product_id: parseInt(productId),
-                user_id: req.user.id
+                user_id: user.id
             };
+
             const newReview = await this.productReviewService.createReview(reviewData);
             res.status(201).json(ApiResponseHandler.success(newReview, 'Review created successfully'));
         } catch (error) {
@@ -43,12 +44,22 @@ export class ProductReviewController {
 
     public async updateReview(req: Request, res: Response): Promise<void> {
         try {
-            const reviewId = req.params.reviewId;
             if (!req.user) {
                 res.status(401).json(ApiResponseHandler.error('User not authenticated'));
                 return;
             }
-            const reviewData: Partial<ProductReview> = req.body;
+
+            const reviewId = req.params.reviewId;
+            const productId = req.params.productId;
+            const user = req.user as User;
+            const reviewData: ProductReview = {
+                ...req.body,
+                product_id: parseInt(productId),
+                user_id: user.id
+            };
+
+
+
             const updatedReview = await this.productReviewService.updateReview(reviewId, reviewData);
             res.status(200).json(ApiResponseHandler.success(updatedReview, 'Review updated successfully'));
         } catch (error) {

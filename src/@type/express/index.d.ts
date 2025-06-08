@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { Request } from 'express';
-import { User } from '../../types/User';
+import { User } from '../../types/user';
 // Mở rộng kiểu của Request
 declare global {
     namespace Express {

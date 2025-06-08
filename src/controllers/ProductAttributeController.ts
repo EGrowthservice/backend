@@ -10,7 +10,6 @@ export class ProductAttributeController {
         this.productService = new ProductAttributeService();
     }
 
-    // Add these methods to ProductController class
     public async addProductAttribute(req: Request, res: Response): Promise<void> {
         try {
             const productId = req.params.productId;
@@ -53,55 +52,6 @@ export class ProductAttributeController {
             res.status(200).json(ApiResponseHandler.success(null, 'Product attribute deleted successfully'));
         } catch (error) {
             res.status(500).json(ApiResponseHandler.error('Error deleting product attribute', error));
-        }
-    }
-
-    // Review methods
-    public async createReview(req: Request, res: Response): Promise<void> {
-        try {
-            const productId = req.params.productId;
-            const userId = req.user.id; // Assuming you have user data in request
-            const reviewData: ProductReview = {
-                ...req.body,
-                product_id: parseInt(productId),
-                user_id: userId
-            };
-            const newReview = await this.productService.createReview(reviewData);
-            res.status(201).json(ApiResponseHandler.success(newReview, 'Review created successfully'));
-        } catch (error) {
-            res.status(500).json(ApiResponseHandler.error('Error creating review', error));
-        }
-    }
-
-    public async getProductReviews(req: Request, res: Response): Promise<void> {
-        try {
-            const productId = req.params.productId;
-            const reviews = await this.productService.getProductReviews(productId);
-            res.status(200).json(ApiResponseHandler.success(reviews, 'Reviews retrieved successfully'));
-        } catch (error) {
-            res.status(500).json(ApiResponseHandler.error('Error retrieving reviews', error));
-        }
-    }
-
-    public async updateReview(req: Request, res: Response): Promise<void> {
-        try {
-            const reviewId = req.params.reviewId;
-            const userId = req.user.id;
-            const reviewData: Partial<ProductReview> = req.body;
-            const updatedReview = await this.productService.updateReview(reviewId, reviewData);
-            res.status(200).json(ApiResponseHandler.success(updatedReview, 'Review updated successfully'));
-        } catch (error) {
-            res.status(500).json(ApiResponseHandler.error('Error updating review', error));
-        }
-    }
-
-    public async deleteReview(req: Request, res: Response): Promise<void> {
-        try {
-            const reviewId = req.params.reviewId;
-            await this.productService.deleteReview(reviewId);
-            res.status(200).json(ApiResponseHandler.success(null, 'Review deleted successfully'));
-        } catch (error) {
-            res.status(500).json(ApiResponseHandler.error('Error deleting review', error));
         }
     }
 }
