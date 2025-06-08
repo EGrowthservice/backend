@@ -71,45 +71,48 @@ const handleOAuthUser = async (profile: OAuthProfile, done: (error: any, user?: 
     }
 };
 
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-const GOOGLE_CALLBACK_URL = process.env.GOOGLE_CALLBACK_URL || 'http://localhost:3000/api/authSocial/google/callback';
+const setupGoogleStrategy = () => {
+    const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+    const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+    const GOOGLE_CALLBACK_URL = process.env.GOOGLE_CALLBACK_URL || 'http://localhost:3000/api/authSocial/google/callback';
 
-if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
-    throw new Error('Missing GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET in environment variables');
-}
+    if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
+        console.warn('Warning: Google OAuth credentials not configured. Google authentication will not be available.');
+        return;
+    }
 
-passport.use(new GoogleStrategy({
-    clientID: GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: GOOGLE_CALLBACK_URL,
-    scope: ['profile', 'email'],
-}, (accessToken, refreshToken, profile, done) => {
-    handleOAuthUser(profile, done);
-}));
+    passport.use(new GoogleStrategy({
+        clientID: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_CLIENT_SECRET,
+        callbackURL: GOOGLE_CALLBACK_URL,
+        scope: ['profile', 'email'],
+    }, (accessToken: string, refreshToken: string, profile: any, done: (err: any, user?: any) => void) => {
+        handleOAuthUser(profile, done);
+    }));
 
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
-const GITHUB_CALLBACK_URL = process.env.GITHUB_CALLBACK_URL || 'http://localhost:3000/api/authSocial/github/callback';
-if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
-    throw new Error('Missing GITHUB_CLIENT_ID or GITHUB_CLIENT_SECRET in environment variables');
-}
+};
+const setupGithubStrategy = () => {
+    const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+    const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+    const GITHUB_CALLBACK_URL = process.env.GITHUB_CALLBACK_URL || 'http://localhost:3000/api/authSocial/github/callback';
 
+    if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
+        console.warn('Warning: GitHub OAuth credentials not configured. GitHub authentication will not be available.');
+        return;
+    }
 
-// GitHub OAuth Strategy
-passport.use(
-    new GitHubStrategy(
-        {
-            clientID: GITHUB_CLIENT_ID,
-            clientSecret: GITHUB_CLIENT_SECRET,
-            callbackURL: GITHUB_CALLBACK_URL,
-            scope: ['user:email'],
-        },
-        (accessToken: string, refreshToken: string, profile: any, done: any) => {
-            handleOAuthUser(profile, done);
-        }
-    )
-);
+    passport.use(new GitHubStrategy({
+        clientID: GITHUB_CLIENT_ID,
+        clientSecret: GITHUB_CLIENT_SECRET,
+        callbackURL: GITHUB_CALLBACK_URL,
+        scope: ['user:email'],
+    }, (accessToken: string, refreshToken: string, profile: any, done: (err: any, user?: any) => void) => {
+        handleOAuthUser(profile, done);
+    }));
+};
+
+setupGoogleStrategy();
+setupGithubStrategy();
 
 passport.serializeUser((user: any, done) => {
     done(null, user);
