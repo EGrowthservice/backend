@@ -16,7 +16,7 @@ const createApp = () => {
     app.use(helmet());
     app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
     app.use(express.json());
-
+    app.set('trust proxy', 1);
     app.use(
         session({
             secret: process.env.SESSION_SECRET || '5e2d3f7a9c1b4d8e0f6a3c7e5b2d9f0a1c3e4b7d8f9a2c5e7b1d4f6a8c0e3b9z',
