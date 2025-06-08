@@ -19,10 +19,13 @@ const createApp = () => {
 
     app.use(
         session({
-            secret: process.env.SESSION_SECRET || '',
+            secret: process.env.SESSION_SECRET || '5e2d3f7a9c1b4d8e0f6a3c7e5b2d9f0a1c3e4b7d8f9a2c5e7b1d4f6a8c0e3b9z',
             resave: false,
-            saveUninitialized: false,
-            cookie: { secure: process.env.NODE_ENV === 'production' },
+            saveUninitialized: true,
+            cookie: {
+                secure: false, // true nếu dùng HTTPS
+                maxAge: 1000 * 60 * 60 * 24, // 1 day
+            },
         })
     );
 
