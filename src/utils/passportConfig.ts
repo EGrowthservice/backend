@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as GitHubStrategy } from 'passport-github2';
-import { supabase } from './supabase';
+import { supabase } from '../config/supabase';
 import jwt, { SignOptions } from 'jsonwebtoken';
 import ms from 'ms';
 

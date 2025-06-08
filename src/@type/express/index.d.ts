@@ -1,11 +1,11 @@
 import * as express from 'express';
 import { Request } from 'express';
-
+import { User } from '../../types/User';
 // Mở rộng kiểu của Request
 declare global {
     namespace Express {
         interface Request {
-            user?: { id: string; email: string; role: string };
+            user?: User;
         }
     }
 }

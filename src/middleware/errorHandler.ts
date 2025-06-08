@@ -6,6 +6,8 @@ export const errorHandler = (
     res: Response,
     next: NextFunction
 ) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Đã xảy ra lỗi server', details: err.message });
+    console.error(err);
+    res.status(err.status || 500).json({
+        message: err.message || 'Internal Server Error',
+    });
 };

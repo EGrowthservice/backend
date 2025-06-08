@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import { supabase } from '../utils/supabase';
+import { supabase } from '../config/supabase';
 import validator from 'validator';
 import { sendEmail } from '../utils/sendEmail';
 import jwt, { SignOptions } from 'jsonwebtoken';
