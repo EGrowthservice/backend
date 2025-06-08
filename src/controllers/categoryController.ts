@@ -20,6 +20,23 @@ export class CategoryController {
         }
     }
 
+    public async uploadCategoryImage(req: Request, res: Response): Promise<void> {
+        try {
+            const categoryId = req.params.id;
+            const file = req.file;
+
+            if (!file) {
+                res.status(400).json(ApiResponseHandler.error('No file uploaded'));
+                return;
+            }
+
+            const imageUrl = await this.categoryService.uploadCategoryImage(file, categoryId);
+            res.status(200).json(ApiResponseHandler.success({ image_url: imageUrl }, 'Image uploaded successfully'));
+        } catch (error) {
+            res.status(500).json(ApiResponseHandler.error('Error uploading image', error));
+        }
+    }
+
     public async getCategories(req: Request, res: Response): Promise<void> {
         try {
             const categories = await this.categoryService.getCategories();

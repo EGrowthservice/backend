@@ -55,7 +55,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
         // Gửi email xác thực
         const verifyToken = createToken({ email }, '30m');
-        const link = `${process.env.BASE_URL}/api/auth/verify-email?token=${verifyToken}`;
+        const link = `${process.env.CLIENT_URL}/api/auth/verify-email?token=${verifyToken}`;
         await sendEmail(email, 'Xác thực tài khoản', `<a href="${link}">Bấm vào đây để xác thực</a>`);
 
         res.status(201).json({ message: 'Đăng ký thành công, kiểm tra email để xác thực!' });
@@ -152,7 +152,7 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
         }
 
         const resetToken = createToken({ email }, '15m');
-        const link = `${process.env.BASE_URL}/reset-password?token=${resetToken}`;
+        const link = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}`;
 
         await sendEmail(email, 'Đặt lại mật khẩu', `<a href="${link}">Bấm để đặt lại mật khẩu</a>`);
 

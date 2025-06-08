@@ -6,9 +6,21 @@ import session from 'express-session';
 import passport from '../utils/passportConfig';
 import { errorHandler } from '../middleware/errorHandler';
 import routes from '../routes';
+import multer from 'multer';
 import dotenv from 'dotenv';
 
 dotenv.config();
+
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 10 * 1024 * 1024 }, // Giới hạn 10MB
+    fileFilter: (req, file, cb) => {
+        if (!file.mimetype.startsWith('image/')) {
+            return cb(new Error('Chỉ chấp nhận file ảnh (PNG, JPG, GIF)'));
+        }
+        cb(null, true);
+    },
+});
 
 const createApp = () => {
     const app = express();

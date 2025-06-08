@@ -8,8 +8,8 @@ export const createPayment = async (req: Request, res: Response) => {
             orderCode,
             amount,
             description,
-            returnUrl: `${process.env.BASE_URL}/success`,
-            cancelUrl: `${process.env.BASE_URL}/cancel`,
+            returnUrl: `${process.env.CLIENT_URL}/success`,
+            cancelUrl: `${process.env.CLIENT_URL}/cancel`,
         };
 
         const paymentLink = await payos.createPaymentLink(paymentData);
